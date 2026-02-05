@@ -23,6 +23,7 @@ Dialog {
         typeBox.currentIndex = 0
         amountField.text = ""
         root.selectedDate = new Date()
+        datePicker.selectedDate = new Date()
         categoryBox.currentIndex = 0
         noteField.text = ""
         open()
@@ -34,6 +35,7 @@ Dialog {
         typeBox.currentIndex = modelData.type === 1 ? 1 : 0
         amountField.text = formatAmount(modelData.amountCents)
         root.selectedDate = Qt.dateFromString(modelData.date, "yyyy-MM-dd")
+        datePicker.selectedDate = Qt.dateFromString(modelData.date, "yyyy-MM-dd")
         categoryBox.currentIndex = Math.max(0, categoryBox.model.indexOf(modelData.category))
         noteField.text = modelData.note
         open()
@@ -59,6 +61,8 @@ Dialog {
             return
         }
         var date = Qt.formatDate(root.selectedDate, "yyyy-MM-dd")
+        var selectedDate = datePicker.selectedDate
+        var date = Qt.formatDate(selectedDate, "yyyy-MM-dd")
         root.saveRequested({
             id: editId,
             type: typeBox.currentIndex === 1 ? 1 : 0,
@@ -116,6 +120,15 @@ Dialog {
                     text: qsTr("Today")
                     onClicked: root.selectedDate = new Date()
                 }
+            DatePicker {
+                id: datePicker
+                Layout.fillWidth: true
+                selectedDate: new Date()
+            }
+
+            Button {
+                text: qsTr("Today")
+                onClicked: datePicker.selectedDate = new Date()
             }
         }
 
